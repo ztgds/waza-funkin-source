@@ -2274,7 +2274,7 @@ class PlayState extends MusicBeatState
 					case 650:
 						blackScreendeez.alpha = 0; // por si el juego la caga (haxeflixel hij de puta)
 					case 895:
-						if(ClientPrefs.followarrow) minionNalgas = true;
+						if(ClientPrefs.modchart) minionNalgas = true;
 						camZoomPENE = false;
 						camZoomSnap = true;
 						defaultCamZoom = 0.6;

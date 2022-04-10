@@ -69,16 +69,16 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
 	public static var ratingStuff:Array<Dynamic> = [
-		['You Suck!', 0.2], //From 0% to 19%
-		['Shit', 0.4], //From 20% to 39%
-		['Bad', 0.5], //From 40% to 49%
-		['Bruh', 0.6], //From 50% to 59%
-		['Meh', 0.69], //From 60% to 68%
-		['Nice', 0.7], //69%
-		['Good', 0.8], //From 70% to 79%
-		['Great', 0.9], //From 80% to 89%
-		['Sick!', 1], //From 90% to 99%
-		['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+		['que', 0.2], //From 0% to 19%
+		['malazo como pug movile', 0.4], //From 20% to 39%
+		['malo como pug movile', 0.5], //From 40% to 49%
+		['c bastian (mal)', 0.6], //From 50% to 59%
+		['Manco', 0.69], //From 60% to 68%
+		['La verdad es que yo me identifico con el niño oxxo, ya que ambos tenemos un pasado muy oscuro somos solitarios y nos gustan los videojuegos, tenemos una personalidad muy fría y calculadora, por eso me identifico con el.', 0.7], //69%
+		['ya', 0.8], //From 70% to 79%
+		['Heroico', 0.9], //From 80% to 89%
+		['Insano', 1], //From 90% to 99%
+		['INSANO SUPREMO', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
 	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
@@ -472,6 +472,17 @@ class PlayState extends MusicBeatState
 				add(bg);
 
 				var stageFront:BGSprite = new BGSprite('piso', -650, 600, 0.9, 0.9);
+				stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
+				stageFront.updateHitbox();
+				add(stageFront);
+
+			case 'stageinsano': //Week 1
+			    defaultCamZoom = 0.75;
+
+				var bg:BGSprite = new BGSprite('freefire', -600, -200, 0.9, 0.9);
+				add(bg);
+
+				var stageFront:BGSprite = new BGSprite('ffpiso', -650, 600, 0.9, 0.9);
 				stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
 				stageFront.updateHitbox();
 				add(stageFront);
@@ -905,7 +916,7 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition = -5000;
 
 		strumLine = new FlxSprite(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, 50).makeGraphic(FlxG.width, 10);
-		if(ClientPrefs.downScroll) strumLine.y = FlxG.height - 150;
+		if(ClientPrefs.downScroll) strumLine.y = FlxG.height - 165;
 		strumLine.scrollFactor.set();
 
 		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
@@ -915,7 +926,7 @@ class PlayState extends MusicBeatState
 		timeTxt.alpha = 0;
 		timeTxt.borderSize = 2;
 		timeTxt.visible = showTime;
-		if(ClientPrefs.downScroll) timeTxt.y = FlxG.height - 44;
+		if(ClientPrefs.downScroll) timeTxt.y = FlxG.height - 55;
 
 		if(ClientPrefs.timeBarType == 'Song Name')
 		{
@@ -1042,7 +1053,7 @@ class PlayState extends MusicBeatState
 		healthBarBG.xAdd = -4;
 		healthBarBG.yAdd = -4;
 		add(healthBarBG);
-		if(ClientPrefs.downScroll) healthBarBG.y = 0.11 * FlxG.height;
+		if(ClientPrefs.downScroll) healthBarBG.y = 50;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'health', 0, 2);
@@ -1208,7 +1219,7 @@ class PlayState extends MusicBeatState
 					if(daSong == 'roses') FlxG.sound.play(Paths.sound('ANGRY'));
 					schoolIntro(doof);
 
-				case 'waza-pelicula':
+				case 'waza-pelicula' | 'insanos':
 					startDialogue(dialogueJson);
 
 				default:
@@ -1253,6 +1264,16 @@ class PlayState extends MusicBeatState
 		Paths.clearUnusedMemory();
 		CustomFadeTransition.nextCamera = camOther;
 	}
+
+		static public function quickSpin(sprite)
+		{
+			FlxTween.angle(sprite, 0, 360, 0.5, {
+				type: FlxTween.ONESHOT,
+				ease: FlxEase.quadInOut,
+				startDelay: 0,
+				loopDelay: 0
+			});
+		}
 
 	function set_songSpeed(value:Float):Float
 	{
@@ -2055,11 +2076,15 @@ class PlayState extends MusicBeatState
 
 			var babyArrow:StrumNote = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player);
 			babyArrow.downScroll = ClientPrefs.downScroll;
-			if (!isStoryMode && !skipArrowStartTween)
+			if (!skipArrowStartTween)
 			{
 				//babyArrow.y -= 10;
 				babyArrow.alpha = 0;
-				FlxTween.tween(babyArrow, {/*y: babyArrow.y + 10,*/ alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
+				FlxTween.tween(babyArrow, {/*y: babyArrow.y + 10,*/ alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0 + (0 * i)});
+				strumLineNotes.forEach(function(note)
+				{
+					quickSpin(note);
+				});
 			}
 			else
 			{
@@ -2271,7 +2296,7 @@ class PlayState extends MusicBeatState
 					case 640:
 						FlxTween.tween(blackScreendeez, {alpha: 0}, Conductor.stepCrochet / 500);
 						camZoomPENE = true;
-					case 650:
+					case 647:
 						blackScreendeez.alpha = 0; // por si el juego la caga (haxeflixel hij de puta)
 					case 895:
 						if(ClientPrefs.modchart) minionNalgas = true;
@@ -2284,6 +2309,15 @@ class PlayState extends MusicBeatState
 					case 1343:
 						defaultCamZoom = 0.9;
 				}
+			case 'insanos':
+	    		switch(curStep)
+		    	{
+					case 640:
+						camZoomSnap = true;
+						if(ClientPrefs.flashing) camHUD.flash(FlxColor.WHITE, 1);
+					case 1151:
+						camZoomSnap = false;
+		    	}
 		}
 
 		switch (curStage)
@@ -3995,6 +4029,14 @@ class PlayState extends MusicBeatState
 
 			if(note.gfNote) {
 				char = gf;
+			}
+
+			switch (curSong.toLowerCase()){
+				case 'waza-pelicula':
+					if(health > 0.5) health -= 0.01;
+					if(ClientPrefs.flashing) camHUD.shake(0.0045, 0.095);
+				case 'insanos':
+					if(health > 1) health -= 0.03;
 			}
 
 			if(char != null)

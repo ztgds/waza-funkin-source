@@ -2,8 +2,8 @@
 	"animations": [
 		{
 			"offsets": [
-				40,
-				190
+				-240,
+				200
 			],
 			"loop": false,
 			"fps": 24,
@@ -13,8 +13,8 @@
 		},
 		{
 			"offsets": [
-				0,
-				460
+				-250,
+				270
 			],
 			"loop": false,
 			"fps": 24,
@@ -24,8 +24,8 @@
 		},
 		{
 			"offsets": [
-				130,
-				200
+				-150,
+				190
 			],
 			"loop": false,
 			"fps": 24,
@@ -35,8 +35,8 @@
 		},
 		{
 			"offsets": [
-				-30,
-				200
+				-200,
+				180
 			],
 			"loop": false,
 			"fps": 24,
@@ -46,8 +46,8 @@
 		},
 		{
 			"offsets": [
-				0,
-				160
+				-191,
+				110
 			],
 			"loop": false,
 			"fps": 24,
@@ -57,22 +57,22 @@
 		}
 	],
 	"no_antialiasing": true,
-	"image": "characters/waza",
+	"image": "characters/bartinsano",
 	"position": [
-		-50,
-		160
+		-130,
+		270
 	],
-	"healthicon": "etesech",
+	"healthicon": "barsinso",
 	"flip_x": false,
 	"healthbar_colors": [
-		83,
-		82,
-		113
+		239,
+		209,
+		27
 	],
 	"camera_position": [
-		50,
-		-150
+		140,
+		-160
 	],
 	"sing_duration": 4,
-	"scale": 1
+	"scale": 1.2
 }

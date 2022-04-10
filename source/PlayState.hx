@@ -1666,6 +1666,11 @@ class PlayState extends MusicBeatState
 				{
 					case 0:
 						FlxG.sound.play(Paths.sound('intro3' + introSoundsSuffix), 0.6);
+
+						strumLineNotes.forEach(function(note)
+						{
+							quickSpin(note);
+						});
 					case 1:
 						countdownReady = new FlxSprite().loadGraphic(Paths.image(introAlts[0]));
 						countdownReady.scrollFactor.set();
@@ -2081,10 +2086,6 @@ class PlayState extends MusicBeatState
 				//babyArrow.y -= 10;
 				babyArrow.alpha = 0;
 				FlxTween.tween(babyArrow, {/*y: babyArrow.y + 10,*/ alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0 + (0 * i)});
-				strumLineNotes.forEach(function(note)
-				{
-					quickSpin(note);
-				});
 			}
 			else
 			{

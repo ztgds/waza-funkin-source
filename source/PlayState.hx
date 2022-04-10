@@ -4037,7 +4037,7 @@ class PlayState extends MusicBeatState
 					if(health > 0.5) health -= 0.01;
 					if(ClientPrefs.flashing) camHUD.shake(0.0045, 0.095);
 				case 'insanos':
-					if(health > 1) health -= 0.03;
+					if(health > 1) health -= 0.01;
 			}
 
 			if(char != null)

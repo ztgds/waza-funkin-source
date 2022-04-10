@@ -78,7 +78,7 @@ class DialogueCharacter extends FlxSprite
 		
 		switch (PlayState.SONG.song.toLowerCase())
 		{
-			case 'waza-pelicula':
+			case 'waza-pelicula' | 'insanos':
 				FlxG.sound.playMusic(Paths.music('tea-time'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
 		}

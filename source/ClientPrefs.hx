@@ -28,6 +28,10 @@ class ClientPrefs {
 	public static var timeBarType:String = 'Time Left';
 	public static var scoreZoom:Bool = true;
 	public static var noReset:Bool = false;
+	public static var ratinginHud:Bool = true;
+	public static var colorBars:Bool = true;
+	public static var npsCount:Bool = true;
+	public static var judgementCounter:Bool = false;
 	public static var healthBarAlpha:Float = 1;
 	public static var controllerMode:Bool = #if android true #else false #end;
 	public static var hitsoundVolume:Float = 0;
@@ -128,6 +132,10 @@ class ClientPrefs {
 		FlxG.save.data.controllerMode = controllerMode;
 		FlxG.save.data.hitsoundVolume = hitsoundVolume;
 		FlxG.save.data.pauseMusic = pauseMusic;
+		FlxG.save.data.npsCount = npsCount;
+		FlxG.save.data.ratinginHud = ratinginHud;
+		FlxG.save.data.judgementCounter = judgementCounter;
+		FlxG.save.data.colorBars = colorBars;
 	
 		FlxG.save.flush();
 
@@ -168,6 +176,18 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.lowQuality != null) {
 			lowQuality = FlxG.save.data.lowQuality;
+		}
+		if(FlxG.save.data.judgementCounter != null) {
+			judgementCounter = FlxG.save.data.judgementCounter;
+		}
+		if(FlxG.save.data.ratinginHud != null) {
+			ratinginHud = FlxG.save.data.ratinginHud;
+		}
+		if(FlxG.save.data.colorBars != null) {
+			colorBars = FlxG.save.data.colorBars;
+		}
+		if(FlxG.save.data.npsCount != null) {
+			npsCount = FlxG.save.data.npsCount;
 		}
 		if(FlxG.save.data.framerate != null) {
 			framerate = FlxG.save.data.framerate;

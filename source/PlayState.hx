@@ -172,8 +172,8 @@ class PlayState extends MusicBeatState
 	public var shits:Int = 0;
 
 	public var isOldIcon:Bool = false;
-	private var holaBoot:Bool = false;
-	private var holaBoot2:Bool = false;
+	private var holaDani:Bool = false;
+	private var holaDani2:Bool = false;
 	private var minionNalgas:Bool = false;
 	private var camZoomSnap:Bool = false;
 	private var camZoomPENE:Bool = false;
@@ -289,6 +289,9 @@ class PlayState extends MusicBeatState
 	// bf and opponent camera movements
     public static var dadCamFollowX:Int = 0;
 	public static var dadCamFollowY:Int = 0;
+
+	var evilTrail:FlxTrail;
+	var sexTrail:FlxTrail;
 
 	//Achievement shit
 	var keysPressed:Array<Bool> = [];
@@ -915,11 +918,11 @@ class PlayState extends MusicBeatState
 				insert(members.indexOf(gfGroup) - 1, fastCar);
 			
 			case 'schoolEvil':
-				var evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069); //nice
+				evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069); //nice
 				insert(members.indexOf(dadGroup) - 1, evilTrail);
 
 			case 'que':
-				var evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069); //nice
+				evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069); //nice
 				insert(members.indexOf(dadGroup) - 1, evilTrail);
 		}
 
@@ -1125,7 +1128,7 @@ class PlayState extends MusicBeatState
 		switch(randomThingy)
 	    {
 			case 0:
-				engineName = 'Wazaaa ';
+				engineName = 'Insano Supremoo ';
 			case 1:
 				engineName = 'Insano ';
 			case 2:
@@ -1744,6 +1747,8 @@ class PlayState extends MusicBeatState
 							quickSpin(note);
 						});
 						iconBop();
+						FlxTween.angle(iconP1, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+						FlxTween.angle(iconP2, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
 					case 1:
 						countdownReady = new FlxSprite().loadGraphic(Paths.image(introAlts[0]));
 						countdownReady.scrollFactor.set();
@@ -1765,6 +1770,8 @@ class PlayState extends MusicBeatState
 						});
 						FlxG.sound.play(Paths.sound('intro2' + introSoundsSuffix), 0.6);
 						iconBop();
+						FlxTween.angle(iconP1, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+						FlxTween.angle(iconP2, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
 					case 2:
 						countdownSet = new FlxSprite().loadGraphic(Paths.image(introAlts[1]));
 						countdownSet.scrollFactor.set();
@@ -1785,6 +1792,8 @@ class PlayState extends MusicBeatState
 						});
 						FlxG.sound.play(Paths.sound('intro1' + introSoundsSuffix), 0.6);
 						iconBop();
+						FlxTween.angle(iconP1, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+						FlxTween.angle(iconP2, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
 					case 3:
 						countdownGo = new FlxSprite().loadGraphic(Paths.image(introAlts[2]));
 						countdownGo.scrollFactor.set();
@@ -1807,6 +1816,8 @@ class PlayState extends MusicBeatState
 						});
 						FlxG.sound.play(Paths.sound('introGo' + introSoundsSuffix), 0.6);
 						iconBop();
+						FlxTween.angle(iconP1, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+						FlxTween.angle(iconP2, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
 						boyfriend.playAnim('hey', true);
 						boyfriend.specialAnim = true;
 						boyfriend.heyTimer = 0.6;
@@ -2414,20 +2425,23 @@ class PlayState extends MusicBeatState
 						blackScreendeez.alpha = 0; // por si el juego la caga (haxeflixel hij de puta)
 					case 895:
 						if(ClientPrefs.modchart) minionNalgas = true;
-						holaBoot = true;
+						holaDani = true;
 						camZoomPENE = false;
 						camZoomSnap = true;
+                        addTrailhehehe();
 						defaultCamZoom = 0.6;
 					case 1215:
 						camZoomSnap = false;
-						holaBoot = false;
-						holaBoot2 = true;
+						holaDani = false;
+						holaDani2 = true;
 						defaultCamZoom = 0.75;
 					case 1343:
 						defaultCamZoom = 0.9;
-						holaBoot2 = false;
+						holaDani2 = false;
 					case 1439:
 						FlxTween.tween(dad, {alpha: 0}, 5);
+						FlxTween.tween(evilTrail, {alpha: 0}, 5);
+						FlxTween.tween(iconP2, {alpha: 0}, 5);
 					case 1567:
                         blackScreendeez.alpha = 1;
 				}
@@ -4225,6 +4239,8 @@ class PlayState extends MusicBeatState
 						camHUD.zoom = 1.05;
 					//	FlxG.camera.zoom = 1.00015;
 					}
+					iconP2.setGraphicSize(Std.int(iconP2.width + 22.5));
+					iconP2.updateHitbox();
 				case 'insanos':
 					if(health > 1) health -= 0.01;
 			}
@@ -4545,6 +4561,12 @@ class PlayState extends MusicBeatState
 		iconP2.updateHitbox();
 	}
 
+	function addTrailhehehe() {
+		sexTrail = new FlxTrail(boyfriend, null, 4, 24, 0.3, 0.069); //nice
+		sexTrail.color = 0xFF50A5EB;
+		insert(members.indexOf(boyfriend) - 1, sexTrail);
+	}
+
 	function killHenchmen():Void
 	{
 		if(!ClientPrefs.lowQuality && ClientPrefs.violence && curStage == 'limo') {
@@ -4716,7 +4738,7 @@ class PlayState extends MusicBeatState
 	    }
 
 		
-		if (holaBoot) {
+		if (holaDani) {
 			if (curBeat % 2 == 0) {
 				if(gf != null && gf.animOffsets.exists('cheer')) {
 					gf.playAnim('cheer', true);
@@ -4726,7 +4748,7 @@ class PlayState extends MusicBeatState
 			}
 	    }
 
-		if (holaBoot2) {
+		if (holaDani2) {
 			if (curBeat % 4 == 0) {
 				if(gf != null && gf.animOffsets.exists('cheer')) {
 					gf.playAnim('cheer', true);

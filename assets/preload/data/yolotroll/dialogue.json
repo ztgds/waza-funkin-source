@@ -1,0 +1,60 @@
+{
+	"dialogue": [
+		{
+			"sound": "",
+			"speed": 0.05,
+			"portrait": "bf",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "que"
+		},
+		{
+			"sound": "",
+			"speed": 0.005,
+			"portrait": "bar",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "so"
+		},
+		{
+			"sound": "",
+			"speed": 0.025,
+			"portrait": "bf",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "te voy a pegar"
+		},
+		{
+			"sound": "",
+			"speed": 0.05,
+			"portrait": "bar",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "mal te reto a un pevepe free fire si gano me das 90000000 diamantes como mr bestas"
+		},
+		{
+			"sound": "",
+			"speed": 0.015,
+			"portrait": "bf",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "no"
+		},
+		{
+			"sound": "",
+			"speed": 0.015,
+			"portrait": "bar",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "manco, no te pregunte XDxDxdXd, veamos si eres un verdadero insano"
+		},
+		{
+			"sound": "",
+			"speed": 0.05,
+			"portrait": "bf",
+			"boxState": "normal",
+			"expression": "talk",
+			"text": "ya"
+		}
+	]
+}

@@ -62,6 +62,13 @@ class WazaSettingsSubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
+		var option:Option = new Option('Note Camera Follow',
+			"CC",
+			'followarrow',
+			'bool',
+			true);
+		addOption(option);
+
 		var option:Option = new Option('Character Colored Bars',
 			'Enable this to make the\nTime and Health Bars Colored\nby the Character json Color\n\nActiva esto para que las barras de vida\ny tiempo esten coloreadas acorde al icono del personaje',
 			'colorBars',

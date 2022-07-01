@@ -1115,7 +1115,7 @@ class PlayState extends MusicBeatState
 		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
 
-		judgementCounter = new FlxText(4, 0, 0, "", 20);
+		judgementCounter = new FlxText(4, 0, FlxG.width, "", 20);
 		judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		judgementCounter.borderSize = 1.25;
 		judgementCounter.borderQuality = 2;
@@ -1143,7 +1143,7 @@ class PlayState extends MusicBeatState
 		songWatermark = new FlxText(4, textYPos, 0,
 		SONG.song
 		+ " - "
-		+ (curSong.toLowerCase() != 'Friday Night Funkin VS Homr V2 FULL WEEK | Homer Simpson, Bart, Marge & Peter Griffin (FNF Mod)' ? (storyDifficulty == 3 ? "FINALE" : storyDifficulty == 2 ? "HARD" : storyDifficulty == 1 ? "NORMAL" : "EASY") : "FINALE")
+		+ CoolUtil.difficultyString()
 		+ " | Motor " + engineName, 14);
 		//+ " ", 16);
 		songWatermark.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -4244,7 +4244,7 @@ class PlayState extends MusicBeatState
 						camHUD.zoom = 1.05;
 					//	FlxG.camera.zoom = 1.00015;
 					}
-					iconP2.setGraphicSize(Std.int(iconP2.width + 16.5));
+					iconP2.setGraphicSize(Std.int(iconP2.width + 15.5));
 					iconP2.updateHitbox();
 				case 'insanos':
 					if(health > 1) health -= 0.01;

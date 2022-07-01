@@ -922,6 +922,11 @@ class PlayState extends MusicBeatState
 				insert(members.indexOf(dadGroup) - 1, evilTrail);
 
 			case 'que':
+				sexTrail = new FlxTrail(boyfriend, null, 4, 24, 0.3, 0.069); //nice
+				sexTrail.color = 0xFF66FFFF;
+				sexTrail.visible = false;
+				insert(members.indexOf(boyfriendGroup) - 1, sexTrail);
+
 				evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069); //nice
 				insert(members.indexOf(dadGroup) - 1, evilTrail);
 		}
@@ -2426,9 +2431,9 @@ class PlayState extends MusicBeatState
 					case 895:
 						if(ClientPrefs.modchart) minionNalgas = true;
 						holaDani = true;
+						sexTrail.visible = true;
 						camZoomPENE = false;
 						camZoomSnap = true;
-                        addTrailhehehe();
 						defaultCamZoom = 0.6;
 					case 1215:
 						camZoomSnap = false;
@@ -4239,7 +4244,7 @@ class PlayState extends MusicBeatState
 						camHUD.zoom = 1.05;
 					//	FlxG.camera.zoom = 1.00015;
 					}
-					iconP2.setGraphicSize(Std.int(iconP2.width + 22.5));
+					iconP2.setGraphicSize(Std.int(iconP2.width + 16.5));
 					iconP2.updateHitbox();
 				case 'insanos':
 					if(health > 1) health -= 0.01;
@@ -4559,12 +4564,6 @@ class PlayState extends MusicBeatState
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
-	}
-
-	function addTrailhehehe() {
-		sexTrail = new FlxTrail(boyfriend, null, 4, 24, 0.3, 0.069); //nice
-		sexTrail.color = 0xFF50A5EB;
-		insert(members.indexOf(boyfriend) - 1, sexTrail);
 	}
 
 	function killHenchmen():Void

@@ -41,7 +41,7 @@ class Main extends Sprite
 	public static var gameVersion:String = '0.3.1';
 
 	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
-	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
+	var skipSplash:Bool = false; // Whether to skip the flixel splash screen that appears in release mode.
 	var infoCounter:Overlay; // initialize the heads up display that shows information before creating it.
 
 	// heres gameweeks set up!
@@ -128,6 +128,8 @@ class Main extends Sprite
 
 		infoCounter = new Overlay(0, 0);
 		addChild(infoCounter);
+
+		FlxG.mouse.useSystemCursor = true; // Use system cursor because it's prettier
 	}
 
 	public static function framerateAdjust(input:Float)

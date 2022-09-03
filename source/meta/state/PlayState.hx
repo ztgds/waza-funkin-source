@@ -22,6 +22,8 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
+import flixel.util.FlxStringUtil;
+import flixel.text.FlxText;
 import gameObjects.*;
 import gameObjects.userInterface.*;
 import gameObjects.userInterface.notes.*;
@@ -122,6 +124,8 @@ class PlayState extends MusicBeatState
 	var lastReportedPlayheadPosition:Int = 0;
 	var songTime:Float = 0;
 
+	var currentBeat:Float = 0;
+
 	var evilTrail:FlxTrail;
 	var sexTrail:FlxTrail;
 
@@ -146,6 +150,8 @@ class PlayState extends MusicBeatState
 
 	public static var songLength:Float = 0;
 
+	private var updateTime:Bool = true;
+
 	private var stageBuild:Stage;
 
 	public static var uiHUD:ClassHUD;
@@ -165,6 +171,9 @@ class PlayState extends MusicBeatState
 
 	private var allUIs:Array<FlxCamera> = [];
 
+    // for the NPS code
+	var notesHitArray:Array<Date> = [];
+
 	// stores the last judgement object
 	public static var lastRating:FlxSprite;
 	// stores the last combo objects in an array
@@ -172,6 +181,12 @@ class PlayState extends MusicBeatState
 
 	//elapsed time like the last frame thing idk
 	public var elapsedtime:Float = 0;
+
+	//weas del texto
+	public var timeTxt:FlxText;
+
+	//weas del tiempo #muerete
+	var songPercent:Float = 0;
 
 	// at the beginning of the playstate
 	override public function create()
@@ -183,6 +198,8 @@ class PlayState extends MusicBeatState
 		combo = 0;
 		health = 1;
 		misses = 0;
+		nps = 0;
+		maxNPS = 0;
 		// sets up the combo object array
 		lastCombo = [];
 
@@ -306,6 +323,18 @@ class PlayState extends MusicBeatState
 		darknessBG.alpha = (100 - Init.trueSettings.get('Stage Opacity')) / 100;
 		darknessBG.scrollFactor.set(0, 0);
 		add(darknessBG);
+
+		// me robe el codigo de psych engine wajajajaj
+		timeTxt = new FlxText(0, 19, 400, "", 32);
+		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		timeTxt.scrollFactor.set();
+		timeTxt.alpha = 0;
+		timeTxt.borderSize = 1.25;
+		timeTxt.screenCenter(X);
+		timeTxt.cameras = [camHUD];
+		if(Init.trueSettings.get('Downscroll'))
+			timeTxt.y = FlxG.height - 44;
+		add(timeTxt);
 
 		// strum setup
 		strumLines = new FlxTypedGroup<Strumline>();
@@ -543,6 +572,8 @@ class PlayState extends MusicBeatState
 		}
 		return -1;
 	}
+ 
+	private final divider:String = " • ";
 
 	override public function destroy()
 	{
@@ -565,6 +596,44 @@ class PlayState extends MusicBeatState
 
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, dadOpponent);
 
+		// reverse iterate to remove oldest notes first and not invalidate the iteration
+		// stop iteration as soon as a note is not removed
+		// all notes should be kept in the correct order and this is optimal, safe to do every frame/update
+		{
+			var balls = notesHitArray.length - 1;
+			while (balls >= 0)
+			{
+				var cock:Date = notesHitArray[balls];
+				if (cock != null && cock.getTime() + 1000 < Date.now().getTime())
+					notesHitArray.remove(cock);
+				else
+					balls = 0;
+				balls--;
+			}
+			nps = notesHitArray.length;
+			if (nps > maxNPS)
+				maxNPS = nps;
+		}
+
+		currentBeat = (Conductor.songPosition/1000)*(SONG.bpm / 140);
+
+		if(minionNalgas) 
+		{
+			for (hud in allUIs)
+				hud.x += 0.25 * Math.cos((currentBeat*0.45)*Math.PI);
+
+			/*boyfriendStrums.allNotes.forEach(function(spr:FlxSprite)
+			{
+				spr.x += Math.sin(elapsedtime) * 0.5;
+				spr.y = boyfriendStrums.y + (40*Math.sin((elapsedtime*2)+spr.ID*2));
+			});
+			dadStrums.allNotes.forEach(function(spr:FlxSprite)
+			{
+				spr.x -= Math.sin(elapsedtime) * 0.5;
+				spr.y = boyfriendStrums.y + (40*Math.sin((elapsedtime*2)+spr.ID*2));
+			});*/
+		}
+
 		switch (SONG.song.toLowerCase())
 		{
 			case 'waza-pelicula':
@@ -584,7 +653,7 @@ class PlayState extends MusicBeatState
 					case 647:
 						blackScreendeez.alpha = 0; // haxeflixel hijo de remil puta
 					case 895:
-						//if(!Init.trueSettings.get('Reduced Movements')) minionNalgas = true;
+						minionNalgas = true;
 						holaDani = true;
 						sexTrail.visible = true;
 						camZoomPENE = false;
@@ -604,6 +673,7 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(uiHUD.iconP2, {alpha: 0}, 5);
 					case 1567:
                         blackScreendeez.alpha = 1;
+						FlxG.camera.alpha = 0;
 				}
 			case 'insanos':
 	    		switch(curStep)
@@ -693,6 +763,23 @@ class PlayState extends MusicBeatState
 						// Conductor.songPosition += FlxG.elapsed * 1000;
 						// trace('MISSED FRAME');
 					}
+
+					if(updateTime) {
+						var curTime:Float = Conductor.songPosition;
+						if(curTime < 0) curTime = 0;
+						songPercent = (curTime / songLength);
+
+	     				var songCalc:Float = (songLength - curTime);
+						songCalc = curTime;
+
+						var sexLol:Int = Math.floor(songLength / 1000);//thank u villezen
+						var secondsTotal:Int = Math.floor(songCalc / 1000);
+
+						if(secondsTotal < 0)
+							secondsTotal = 0;
+
+						timeTxt.text =  FlxStringUtil.formatTime(secondsTotal, false) + " / " +  FlxStringUtil.formatTime(sexLol, false);
+					}
 				}
 
 				// Conductor.lastSongPos = FlxG.sound.music.time;
@@ -764,9 +851,9 @@ class PlayState extends MusicBeatState
 			for (hud in allUIs)
 				hud.zoom = FlxMath.lerp(1 + forceZoom[1], hud.zoom, easeLerp);
 
-			// not even forcezoom anymore but still
+	   		// not even forcezoom anymore but still
 			FlxG.camera.angle = FlxMath.lerp(0 + forceZoom[2], FlxG.camera.angle, easeLerp);
-			for (hud in allUIs)
+		 	for (hud in allUIs)
 				hud.angle = FlxMath.lerp(0 + forceZoom[3], hud.angle, easeLerp);
 
 			// Controls
@@ -1041,6 +1128,8 @@ class PlayState extends MusicBeatState
 		daNote.destroy();
 	}
 
+	public static var nps:Int = 0;
+	public static var maxNPS:Int = 0;
 	function goodNoteHit(coolNote:Note, character:Character, characterStrums:Strumline, ?canDisplayJudgement:Bool = true)
 	{
 		if (!coolNote.wasGoodHit)
@@ -1051,6 +1140,11 @@ class PlayState extends MusicBeatState
 			characterPlayAnimation(coolNote, character);
 			if (characterStrums.receptors.members[coolNote.noteData] != null)
 				characterStrums.receptors.members[coolNote.noteData].playAnim('confirm', true);
+
+			if(character == boyfriend) {
+				if (!coolNote.isSustainNote)
+					notesHitArray.unshift(Date.now());
+			}
 
 			switch (curSong.toLowerCase()){
 				case 'waza-pelicula':
@@ -1542,6 +1636,7 @@ class PlayState extends MusicBeatState
 			#if desktop
 			// Song duration in a float, useful for the time left feature
 			songLength = songMusic.length;
+			FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 
 			// Updating Discord Rich Presence (with Time Left)
 			updateRPC(false);
@@ -1654,6 +1749,20 @@ class PlayState extends MusicBeatState
 				FlxG.camera.zoom += 0.010;
 				FlxTween.tween(camHUD, {angle:0}, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
 				FlxTween.tween(FlxG.camera, {angle:0}, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+			}
+		}
+
+		if(minionNalgas && !Init.trueSettings.get('Reduced Movements')) 
+		{
+			if (curBeat % 16 == 0) {
+				for (hud in strumHUD) {
+					FlxTween.tween(hud, {angle: -3}, 4, {ease: FlxEase.linear});
+				}
+			} 
+			if (curBeat % 16 == 8) {
+				for (hud in strumHUD) {
+					FlxTween.tween(hud, {angle: 3}, 4, {ease: FlxEase.linear});
+				}
 			}
 		}
 
@@ -1817,6 +1926,10 @@ class PlayState extends MusicBeatState
 	function endSong():Void
 	{
 		canPause = false;
+		updateTime = false;
+
+		timeTxt.visible = false;
+
 		songMusic.volume = 0;
 		vocals.volume = 0;
 		if (SONG.validScore)

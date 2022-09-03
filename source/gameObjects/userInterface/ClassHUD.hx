@@ -27,7 +27,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 {
 	// set up variables and stuff here
 	var infoBar:FlxText; // small side bar like kade engine that tells you engine info
-	var scoreBar:FlxText;
+	public var scoreBar:FlxText;
 	var scoreLast:Float = -1;
 
 	// fnf mods
@@ -87,13 +87,13 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		add(iconP2);
 
 		scoreBar = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 35), 0, scoreDisplay);
-		scoreBar.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE);
+		scoreBar.setFormat(Paths.font('fullphanmuff.ttf'), 16, FlxColor.WHITE);
 		scoreBar.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.5);
 		updateScoreText();
 		// scoreBar.scrollFactor.set();
 		scoreBar.antialiasing = true;
 		scoreBar.screenCenter(X);
-		add(scoreBar);
+		add(scoreBar);		
 
 		// small info bar, kinda like the KE watermark
 		// based on scoretxt which I will set up as well
@@ -101,14 +101,14 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song) + ' - ' + CoolUtil.difficultyFromNumber(PlayState.storyDifficulty);
 		var engineDisplay:String = "Forever Engine v" + Main.gameVersion;
 		var engineBar:FlxText = new FlxText(0, FlxG.height - 30, 0, engineDisplay, 16);
-		engineBar.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		engineBar.setFormat(Paths.font("fullphanmuff.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		engineBar.updateHitbox();
 		engineBar.x = FlxG.width - engineBar.width - 5;
 		engineBar.scrollFactor.set();
 		add(engineBar);
 
 		infoBar = new FlxText(5, FlxG.height - 30, 0, infoDisplay, 20);
-		infoBar.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		infoBar.setFormat(Paths.font("fullphanmuff.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		infoBar.scrollFactor.set();
 		add(infoBar);
 
@@ -128,7 +128,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 					+ (i * counterTextSize), 0, '', counterTextSize);
 				if (!left)
 					textAsset.x -= textAsset.text.length * counterTextSize;
-				textAsset.setFormat(Paths.font("vcr.ttf"), counterTextSize, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				textAsset.setFormat(Paths.font("fullphanmuff.ttf"), counterTextSize, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				textAsset.scrollFactor.set();
 				timingsMap.set(judgementNameArray[i], textAsset);
 				add(textAsset);
@@ -188,9 +188,9 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		var displayAccuracy:Bool = Init.trueSettings.get('Display Accuracy');
 		if (displayAccuracy)
 		{
-			scoreBar.text += divider + 'Accuracy: ' + Std.string(Math.floor(Timings.getAccuracy() * 100) / 100) + '%' + Timings.comboDisplay;
-			scoreBar.text += divider + 'Combo Breaks: ' + Std.string(PlayState.misses);
-			scoreBar.text += divider + 'Rank: ' + Std.string(Timings.returnScoreRating().toUpperCase());
+			scoreBar.text += divider + 'Accuracy: ' + Math.floor(Timings.getAccuracy() * 100) / 100 + '%' + Timings.comboDisplay;
+			scoreBar.text += divider + 'Combo Breaks: ' + PlayState.misses;
+			scoreBar.text += divider + 'Rank: ' + Timings.returnScoreRating().toUpperCase();
 		}
 		scoreBar.text += '\n';
 		scoreBar.x = Math.floor((FlxG.width / 2) - (scoreBar.width / 2));

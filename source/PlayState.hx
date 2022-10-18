@@ -234,6 +234,8 @@ class PlayState extends MusicBeatState
 	var lightningStrikeBeat:Int = 0;
 	var lightningOffset:Int = 8;
 
+	var scoreTxtTween:FlxTween;
+
 	var scoreTxt:FlxText;
 	var kadeEngineWatermark:FlxText;
 	var creditsWatermark:FlxText;
@@ -852,10 +854,12 @@ class PlayState extends MusicBeatState
 		// subtitleManager.cameras = [camHUD];
 		// add(subtitleManager);
 
+		#if botplay
 		new FlxTimer().start(4.5, function(timer:FlxTimer)
 		{
 			botPlayCanBeEnabled = false;
 		});
+		#end
 
 		super.create();
 
@@ -2776,6 +2780,20 @@ class PlayState extends MusicBeatState
 		updateAccuracy();
 	}
 
+	function scoreZoom() {
+		if(scoreTxtTween != null) {
+			scoreTxtTween.cancel();
+		}
+		scoreTxt.scale.x = 1.05;
+		scoreTxt.scale.y = 1.035;
+		scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.55, {
+			ease: FlxEase.circOut,
+			onComplete: function(twn:FlxTween) {
+				scoreTxtTween = null;
+			}
+		});
+	}
+
 	function updateAccuracy()
 	{
 		totalPlayed += 1;
@@ -2806,6 +2824,7 @@ class PlayState extends MusicBeatState
 					FlxG.sound.play(Paths.sound('note_click'));
 				}
 				combo += 1;
+				scoreZoom();
 			}
 			else
 			{

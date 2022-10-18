@@ -1,0 +1,3 @@
+internal,tutorial,gf,good
+internal,waza-pelicula,waza,good
+internal,insanos,bartsinso,bad

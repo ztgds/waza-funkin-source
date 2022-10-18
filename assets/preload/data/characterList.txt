@@ -1,0 +1,9 @@
+bf:bf:#31b0d1
+bf-fastahh:bf:#31b0d1
+bf-pixel:bf-pixel:#31b0d1
+gf:gf:#a5004d
+dad:dad:#af66ce
+waza:waza:#404040
+bf-car:bf:#31b0d1
+bf-christmas:bf:#31b0d1
+gf-christmas:gf:#a5004d

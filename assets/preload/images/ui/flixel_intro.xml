@@ -89,5 +89,5 @@
 	<SubTexture name="intro0084" x="333" y="232" width="303" height="201" frameX="0" frameY="0" frameWidth="303" frameHeight="202"/>
 	<SubTexture name="intro0085" x="333" y="232" width="303" height="201" frameX="0" frameY="0" frameWidth="303" frameHeight="202"/>
 	<SubTexture name="intro0086" x="333" y="232" width="303" height="201" frameX="0" frameY="0" frameWidth="303" frameHeight="202"/>
-	<SubTexture name="intro0087" x="437" y="15" width="303" height="202"/>
+	<SubTexture name="introEnd0000" x="437" y="15" width="303" height="202"/>
 </TextureAtlas>

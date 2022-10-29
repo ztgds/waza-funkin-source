@@ -275,7 +275,7 @@ class PlayState extends MusicBeatState
 	var bfNoteCamOffset:Array<Float> = new Array<Float>();
 	var dadNoteCamOffset:Array<Float> = new Array<Float>();
 
-	var video:VideoHandler;
+	//var video:VideoHandler;
 	var weirdBG:FlxSprite;
 
 	var scriptThing:Dynamic;
@@ -987,7 +987,7 @@ class PlayState extends MusicBeatState
 		{
 			dad.dance();
 			gf.dance();
-			boyfriend.playAnim('idle', true);
+			boyfriend.dance();
 
 			var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 			var introSoundAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
@@ -1115,7 +1115,7 @@ class PlayState extends MusicBeatState
 		}, 5);
 	}
 
-	function playCutscene(name:String)
+	/*function playCutscene(name:String)
 	{
 		inCutscene = true;
 		FlxG.sound.music.stop();
@@ -1149,7 +1149,7 @@ class PlayState extends MusicBeatState
 			LoadingState.loadAndSwitchState(new PlayState());
 		}
 		video.playVideo(Paths.video(name));
-	}
+	}*/
 
 	var previousFrameTime:Int = 0;
 	var songTime:Float = 0;
@@ -1613,9 +1613,11 @@ class PlayState extends MusicBeatState
 						camZoomSnap = false;
 					case 398:
 						FlxTween.tween(blackScreendeez, {alpha: 0.5}, Conductor.stepCrochet / 500);
+						defaultCamZoom = 1.15;
 					case 640:
 						FlxTween.tween(blackScreendeez, {alpha: 0}, Conductor.stepCrochet / 500);
 						camZoomSnap = true;
+						defaultCamZoom = 0.75;
 					case 647:
 						blackScreendeez.alpha = 0; // haxeflixel hijo de remil puta
 					case 895:
@@ -2098,6 +2100,9 @@ class PlayState extends MusicBeatState
 					case 'senpai-angry':
 						camFollow.y = dad.getMidpoint().y - 430;
 						camFollow.x = dad.getMidpoint().x - 100;
+					case 'insano':
+						camFollow.x = dad.getMidpoint().x + 520;
+						camFollow.x = dad.getMidpoint().y - 80;
 				}
 
 				if (SONG.song.toLowerCase() == 'tutorial')
@@ -2288,10 +2293,7 @@ class PlayState extends MusicBeatState
 
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
 		add(rating);
-		if (combo >= 10)
-		{
-			add(comboSpr);
-		}
+		add(comboSpr);
 
 		rating.setGraphicSize(Std.int(rating.width * 0.7));
 		rating.antialiasing = true;
@@ -2305,8 +2307,13 @@ class PlayState extends MusicBeatState
 
 		var comboSplit:Array<String> = (daCombo + "").split('');
 
-		if (comboSplit.length == 2)
-			seperatedScore.push(0); // make sure theres a 0 in front or it looks weird lol!
+		// make sure we have 3 digits to display (looks weird otherwise lol)
+		if (comboSplit.length == 1) {
+			seperatedScore.push(0);
+			seperatedScore.push(0);
+		}
+		else if (comboSplit.length == 2)
+			seperatedScore.push(0);
 
 		for (i in 0...comboSplit.length)
 		{
@@ -2330,8 +2337,7 @@ class PlayState extends MusicBeatState
 			numScore.velocity.y -= FlxG.random.int(140, 160);
 			numScore.velocity.x = FlxG.random.float(-5, 5);
 
-			if (daCombo >= 10 || daCombo == 0)
-				add(numScore);
+			add(numScore);
 
 			FlxTween.tween(numScore, {alpha: 0}, 0.2, {
 				onComplete: function(tween:FlxTween)
@@ -2641,7 +2647,7 @@ class PlayState extends MusicBeatState
 		{
 			if ((boyfriend.animation.curAnim.name.startsWith('sing')) && !boyfriend.animation.curAnim.name.endsWith('miss'))
 			{
-				boyfriend.playAnim('idle');
+				boyfriend.dance();
 
 				bfNoteCamOffset[0] = 0;
 				bfNoteCamOffset[1] = 0;
@@ -3049,27 +3055,33 @@ class PlayState extends MusicBeatState
 			FlxG.camera.zoom += camBopVAL;
 			camHUD.zoom += camHUDBopVAL;
 		}
+
 		if (camZooming && curBeat % 4 == 0 && !camZoomSnap)
 		{
 			FlxG.camera.zoom += camBopVAL;
 			camHUD.zoom += camHUDBopVAL;
 		}
+
 		if (elPepeEteSech)
 		{
-		    if (curBeat % 4 == 0) {
-				camHUD.angle -= 5;
-				FlxG.camera.angle += 1.5;
-				FlxG.camera.zoom += 0.010;
-				FlxTween.tween(camHUD, {angle:0}, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
-				FlxTween.tween(FlxG.camera, {angle:0}, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
-			} if (curBeat % 4 == 2) {
-				camHUD.angle += 5;
-				FlxG.camera.angle -= 1.5;
-				FlxG.camera.zoom += 0.010;
-				FlxTween.tween(camHUD, {angle:0}, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
-				FlxTween.tween(FlxG.camera, {angle:0}, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+		    if (curBeat % 4 == 0 || curBeat % 4 == 2) 
+			{
+				for (cameras in [camHUD, FlxG.camera]) {
+					cameras.angle -= 1.5;
+					FlxTween.tween(cameras, {angle:0}, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+				}
+				FlxG.camera.zoom += 0.015;
+			} 
+			else if (curBeat % 4 == 1 || curBeat % 4 == 3) 
+			{
+				for (cameras in [camHUD, FlxG.camera]) {
+					cameras.angle += 1.5;
+					FlxTween.tween(cameras, {angle:0}, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
+				}
+				FlxG.camera.zoom += 0.015;
 			}
 		}
+
 		if (holaDani) {
 			if (curBeat % chupaloo == 0) {
 				if(gf != null) {
@@ -3079,21 +3091,6 @@ class PlayState extends MusicBeatState
 				}
 			}
 	    }
-		// if (crazyZooming && curBeat % 1 == 0)
-		// {
-		// 	FlxG.camera.zoom += 0.015;
-		// 	camHUD.zoom += 0.03;
-		// }
-		/*switch (curSong.toLowerCase())
-			{
-				TEMPORARILY DISABLED
-				MAKING A NEW SYSTEM
-			}
-		 */
-		// if (shakeCam)
-		// {
-		// 	gf.playAnim('scared', true);
-		// }
 		if (curBeat % 8 == 7 && curSong == 'Bopeebo')
 		{
 			boyfriend.playAnim('hey', true);

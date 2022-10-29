@@ -52,7 +52,7 @@ class FlxSplash extends FlxState
 		animatedIntro = new FlxSprite(0,0);
 		animatedIntro.frames = animatedTex;
 		animatedIntro.animation.addByPrefix('intro', 'intro', 24);
-		animatedIntro.animation.play('intro');
+		animatedIntro.animation.play('intro', false);
 		animatedIntro.updateHitbox();
 		animatedIntro.antialiasing = false;
 		animatedIntro.screenCenter();
@@ -87,6 +87,10 @@ class FlxSplash extends FlxState
 	}
 	override public function update(elapsed:Float)
 	{
+		if (animatedIntro.animation.finished) 
+		{
+			animatedIntro.animation.play('introEnd', true);
+		}
 		if (FlxG.save.data.hasSeenSplash && FlxG.keys.justPressed.ENTER)
 		{
 			onComplete(null);

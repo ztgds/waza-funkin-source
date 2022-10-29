@@ -1,4 +1,5 @@
 bf:bf:#31b0d1
+insano:insano:#efcf1a
 bf-fastahh:bf:#31b0d1
 bf-pixel:bf-pixel:#31b0d1
 gf:gf:#a5004d

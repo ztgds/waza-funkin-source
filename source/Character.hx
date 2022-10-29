@@ -85,7 +85,7 @@ class Character extends FlxSprite
 
 				barColor = FlxColor.fromRGB(49, 176, 209);
 
-				playAnim('idle');
+				playAnim('idle', true);
 
 				nativelyPlayable = true;
 
@@ -225,7 +225,30 @@ class Character extends FlxSprite
 
 				skins.set('gfSkin', 'gf');
 
+				globalOffset = [-50, 160];
+
 				barColor = FlxColor.fromRGB(255, 0, 0);
+	
+				playAnim('idle');
+
+			case 'insano':
+				// DAD ANIMATION LOADING CODE
+				frames = Paths.getSparrowAtlas('characters/bartinsano', 'shared');
+
+				animation.addByPrefix('idle', 'idle', 24, false);
+				animation.addByPrefix('singUP', 'up', 24);
+				animation.addByPrefix('singRIGHT', 'right', 24);
+				animation.addByPrefix('singDOWN', 'down', 24);
+				animation.addByPrefix('singLEFT', 'left', 24);
+
+				loadOffsetFile(curCharacter);
+
+				skins.set('gfSkin', 'gf');
+
+				globalOffset = [-130, 270];
+				scale.set(1.2, 1.2);
+
+				barColor = FlxColor.fromRGB(239, 207, 26);
 	
 				playAnim('idle');
 

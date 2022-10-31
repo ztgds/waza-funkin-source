@@ -152,13 +152,13 @@ class DialogueBox extends FlxSpriteGroup
 				add(swagDialogue);
 			default:
 				dropText = new FlxText(242, 502, Std.int(FlxG.width * 0.6), "", 32);
-				dropText.font = 'Stanberry';
+				dropText.font = 'Stanberry Regular';
 				dropText.color = 0xFF00137F;
 				dropText.antialiasing = true;
 				add(dropText);
 		
 				swagDialogue = new FlxTypeText(240, 500, Std.int(FlxG.width * 0.6), "", 32);
-				swagDialogue.font = 'Stanberry';
+				swagDialogue.font = 'Stanberry Regular';
 				swagDialogue.color = 0xFF000000;
 				swagDialogue.antialiasing = true;
 				add(swagDialogue);

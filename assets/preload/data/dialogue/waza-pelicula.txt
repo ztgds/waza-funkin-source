@@ -1,4 +1,4 @@
-:waza,neutral:Me dijieron por ahi de que tu eras el mayor insano.
+:waza,neutral:Me dijieron por ahi de que tu eras el mas insano.
 :waza,neutral:Es cierto?
 :bf,ready:aweonao
 :waza,mad:cagaste

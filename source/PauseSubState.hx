@@ -26,7 +26,9 @@ class PauseSubState extends MusicBeatSubstate
 		new PauseOption('Resume'),
 		new PauseOption('Restart Song'),
 		new PauseOption('Change Character'),
+		#if debug
 		new PauseOption('No Miss Mode'),
+		#end
 		new PauseOption('Exit to menu')
 	];
 	var curSelected:Int = 0;
@@ -200,8 +202,10 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.camZooming = false;
 					FlxG.mouse.visible = false;
 					FlxG.switchState(new CharacterSelectState());	
+			#if debug
 			case "No Miss Mode":
 				PlayState.instance.noMiss = !PlayState.instance.noMiss;
+			#end
 			case "Exit to menu":
 				funnyTexts.clear();
 				PlayState.characteroverride = 'none';

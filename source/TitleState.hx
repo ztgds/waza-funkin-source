@@ -308,8 +308,10 @@ class TitleState extends MusicBeatState
 	
 			switch (curBeat)
 			{
+				case 2:
+					deleteCoolText();
 				case 3:
-					addMoreText('Built on / Hecho en');
+					addMoreText('Hecho en');
 				case 4:
 					addMoreText('Dave Engine');
 				case 5:
@@ -317,7 +319,8 @@ class TitleState extends MusicBeatState
 				case 6:
 					createCoolText(['El mod mas insano']);
 				case 7:
-					addMoreText('creado por juanitofreefire!11\nztgds');
+					addMoreText('creado por juanitofreefire');
+					addMoreText('ztgds');
 				case 8:
 					deleteCoolText();
 				case 9:

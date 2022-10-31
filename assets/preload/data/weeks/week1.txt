@@ -1,3 +1,2 @@
-waza-pelicula:waza
 insanos:insano
-excremento:dad
+waza-pelicula:waza

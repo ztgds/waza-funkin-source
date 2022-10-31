@@ -609,10 +609,6 @@ class FreeplayState extends MusicBeatState
 		pressSpeeds = new Array<Float>();
 		pressUnlockNumber = new FlxRandom().int(20, 40);
 	}
-	static function getSongWeek(song:String)
-	{
-		
-	}
 }
 
 class SongMetadata

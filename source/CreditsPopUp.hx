@@ -36,8 +36,11 @@ class CreditsPopUp extends FlxSpriteGroup
 
 		switch (PlayState.SONG.song.toLowerCase())
 		{
-			case 'tutorial' | 'bopeebo' | 'fresh' | 'dadbattle' | 'spookeez' | 'south' | 'satin-panties' | 'high' |  'milf' | 'cocoa' | 'eggnog' | 'senpai' | 'roses' | 'thorns' | 'ugh' | 'guns' | 'stress' | 'test':
+			case 'tutorial' | 'bopeebo' | 'fresh' | 'dadbattle' | 'spookeez' | 'south' | 'satin-panties' | 'high' |  'milf' | 'cocoa' |
+			    'eggnog' | 'senpai' | 'roses' | 'thorns' | 'ugh' | 'guns' | 'stress' | 'test':
 				songCreator = 'KawaiSprite';
+			case 'waza-pelicula' | 'insanos':
+				songCreator = 'ztgds';
 		}
 		switch (PlayState.storyWeek)
 		{

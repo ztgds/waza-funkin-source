@@ -85,7 +85,7 @@ class Character extends FlxSprite
 
 				barColor = FlxColor.fromRGB(49, 176, 209);
 
-				playAnim('idle', true);
+				playAnim('idle');
 
 				nativelyPlayable = true;
 
@@ -768,17 +768,17 @@ class Character extends FlxSprite
 		{
 			return; // why wasn't this a thing in the first place
 		}
+
+		animation.play(AnimName, Force, Reversed, Frame);
+
 		if ((AnimName.toLowerCase() == 'idle' || AnimName.toLowerCase().startsWith('dance')) && !canDance)
 		{
 			return;
 		}
-
 		if (AnimName.toLowerCase().startsWith('sing') && !canSing)
 		{
 			return;
 		}
-
-		animation.play(AnimName, Force, Reversed, Frame);
 
 		var daOffset = animOffsets.get(AnimName);
 		if (animOffsets.exists(AnimName))

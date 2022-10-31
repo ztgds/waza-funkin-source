@@ -61,12 +61,12 @@ option_fpsCap==FPS Cap
 option_freeplay_cutscenes_off==Freeplay Cutscenes Off
 option_freeplay_cutscenes_on==Freeplay Cutscenes On
 
-option_noteCamera_on==Camera Movement On Note
+option_noteCamera_on==Dynamic Camera
 option_noteCamera_off==Normal Camera
 
 option_change_langauge==Change Language
-option_disable_fps==Disable FPS & Memory Counter
-option_enable_fps==Enable FPS & Memory Counter
+option_disable_fps==Disable FPS n Mem Counter
+option_enable_fps==Enable FPS n Mem Counter
 
 option_enable_compat==Compatibility Mode OFF
 option_disable_compat==Compatibility Mode ON
@@ -84,7 +84,7 @@ keybind_preset==Keybind Presets:
 story_track==Tracks
 story_weekScore==WEEK SCORE:
 story_week0==Tutorial
-story_week1==Daddy Dearest
+story_week1==La week mas insana :ghost:
 story_week2==Spooky Month
 story_week3==Pico
 story_week4==Mommy Must Murder
@@ -106,13 +106,17 @@ play_miss==Misses:
 play_accuracy==Accuracy:
 
 // Credits State //
-credits_dev==Developers
-credits_translator==Translators
+credits_wazadev==Mod Developers
+credits_dev==Engine Developers
+credits_translator==Engine Translators
 credits_contributor==Contributors
 credits_betaTester==Beta Testers
 credits_specialThanks==Special Thanks
 
 credits_songby==Song by
+
+//wazadevelopers 
+credit_ztgds==Mod Developer (everything except the engine)
 
 //developers 
 credit_Erizur==Dave Engine Main Developer

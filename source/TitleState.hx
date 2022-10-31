@@ -4,12 +4,14 @@ import haxe.Http;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.FlxCamera;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.TransitionData;
 import flixel.graphics.FlxGraphic;
 import flixel.group.FlxGroup;
 import flixel.input.gamepad.FlxGamepad;
+import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.system.FlxSound;
@@ -49,9 +51,12 @@ class TitleState extends MusicBeatState
 	var eye:FlxSprite;
 	var loopEyeTween:FlxTween;
 
+	var camBelow:FlxCamera;
+	var camStupid:FlxCamera;
+	var camDef:FlxCamera;
+
 	override public function create():Void
 	{
-
 		PlayerSettings.init();
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
@@ -74,6 +79,16 @@ class TitleState extends MusicBeatState
 		CoolUtil.init();
 
 		Main.fps.visible = !FlxG.save.data.disableFps;
+
+		camBelow = new FlxCamera();
+		camStupid = new FlxCamera();
+		camDef = new FlxCamera();
+		FlxG.cameras.add(camBelow);
+		FlxG.cameras.add(camStupid);
+		FlxG.cameras.add(camDef);
+		camStupid.bgColor.alpha = 0;
+		camDef.bgColor.alpha = 0;
+		FlxCamera.defaultCameras = [camDef];
 
 		CompatTool.initSave();
 		if(CompatTool.save.data.compatMode == null)
@@ -108,7 +123,6 @@ class TitleState extends MusicBeatState
 	}
 
 	var logoBl:FlxSprite;
-	var gfDance:FlxSprite;
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
 
@@ -136,21 +150,15 @@ class TitleState extends MusicBeatState
 		persistentUpdate = true;
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		bg.cameras = [camBelow];
 		add(bg);
 
-		logoBl = new FlxSprite(-150, -100);
-		logoBl.frames = Paths.getSparrowAtlas('ui/logoBumpin');
+		logoBl = new FlxSprite(0, 0).loadGraphic(Paths.image('ui/gayest-logo', 'preload'));
 		logoBl.antialiasing = true;
-		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
-		logoBl.animation.play('bump');
+		logoBl.screenCenter();
 		logoBl.updateHitbox();
-
-		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-		gfDance.frames = Paths.getSparrowAtlas('ui/gfDanceTitle');
-		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-		gfDance.antialiasing = true;
-		add(gfDance);
+		logoBl.scale.set(0.65, 0.65);
+		logoBl.cameras = [camStupid];
 		add(logoBl);
 
 		titleText = new FlxSprite(100, FlxG.height * 0.8);
@@ -253,7 +261,7 @@ class TitleState extends MusicBeatState
 		{
 			titleText.animation.play('press');
 
-			FlxG.camera.flash(FlxColor.WHITE, 0.5);
+			camStupid.flash(FlxColor.WHITE, 0.5);
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 			transitioning = true;
@@ -268,6 +276,8 @@ class TitleState extends MusicBeatState
 		{
 			skipIntro();
 		}
+
+		camStupid.zoom = FlxMath.lerp(1, camStupid.zoom, 0.95);
 
 		super.update(elapsed);
 	}
@@ -288,30 +298,26 @@ class TitleState extends MusicBeatState
 
 	override function beatHit()
 	{
-		if (logoBl != null && gfDance != null)
+		if (logoBl != null)
 		{
 			super.beatHit();
 
-			danceLeft = !danceLeft;
+			camStupid.zoom += 0.05;
 
-			logoBl.animation.play('bump');
-	
-			if (danceLeft) gfDance.animation.play('danceRight');
-			else gfDance.animation.play('danceLeft');
+			danceLeft = !danceLeft;
 	
 			switch (curBeat)
 			{
 				case 3:
-					addMoreText('TheBuilderXD');
-					addMoreText('Erizur, T5mpler');
+					addMoreText('Built on / Hecho en');
 				case 4:
-					addMoreText('and Contributors');
+					addMoreText('Dave Engine');
 				case 5:
 					deleteCoolText();
 				case 6:
-					createCoolText(['Based on Kade Engine']);
+					createCoolText(['El mod mas insano']);
 				case 7:
-					addMoreText('for the funnies');
+					addMoreText('creado por juanitofreefire!11\nztgds');
 				case 8:
 					deleteCoolText();
 				case 9:
@@ -321,11 +327,11 @@ class TitleState extends MusicBeatState
 				case 11:
 					deleteCoolText();
 				case 12:
-					addMoreText("Friday Night Funkin'");
+					addMoreText("Gayest");
 				case 13:
-					addMoreText('Dave');
+					addMoreText('Night');
 				case 14:
-					addMoreText('Engine');
+					addMoreText("Funkin'");
 				case 16:
 					skipIntro();
 			}

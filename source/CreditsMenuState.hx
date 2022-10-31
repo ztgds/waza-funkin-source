@@ -62,6 +62,12 @@ class CreditsMenuState extends MusicBeatState
    
    var peopleInCredits:Array<Person> = 
    [
+      new Person("ztgds", CreditsType.WazaDev,
+      [
+         new Social('youtube', 'https://www.youtube.com/channel/UCTi70VFLKz624JcU_QmJoHQ'),
+      ]),
+
+
       // Developers //
       new Person("Erizur", CreditsType.Dev,
       [
@@ -168,6 +174,7 @@ class CreditsMenuState extends MusicBeatState
          add(bg);
       }
       
+      var wazadevelopers:Array<Person> = new Array<Person>();
       var developers:Array<Person> = new Array<Person>();
       var translators:Array<Person> = new Array<Person>();
       var contributors:Array<Person> = new Array<Person>();
@@ -178,11 +185,9 @@ class CreditsMenuState extends MusicBeatState
       {
          switch (person.creditsType)
          {
+            case WazaDev: wazadevelopers.push(person);
             case Dev: developers.push(person);
             case Translator: translators.push(person);
-            case Contributor: contributors.push(person);
-            case BetaTester: betaTesters.push(person);
-            case SpecialThanks: specialThanks.push(person);
          }
       }
 
@@ -193,21 +198,15 @@ class CreditsMenuState extends MusicBeatState
          {
             switch (currentPerson.creditsType)
             {
-               case Dev:
+               case WazaDev:
                   creditsTypeString = 'Developers';
+                  translatedCreditsType = LanguageManager.getTextString('credits_wazadev');
+               case Dev:
+                  creditsTypeString = 'Engine Developers';
                   translatedCreditsType = LanguageManager.getTextString('credits_dev');
                case Translator:
-                  creditsTypeString = 'Translators';
+                  creditsTypeString = 'Engine Translators';
                   translatedCreditsType = LanguageManager.getTextString('credits_translator');
-               case Contributor:
-                  creditsTypeString = 'Contributors';
-				  translatedCreditsType = LanguageManager.getTextString('credits_contributor');
-               case BetaTester:
-                  creditsTypeString = 'Beta Testers';
-                  translatedCreditsType = LanguageManager.getTextString('credits_betaTester');
-               case SpecialThanks:
-                  creditsTypeString = 'Special Thanks';
-                  translatedCreditsType = LanguageManager.getTextString('credits_specialThanks');
             }
             var titleText:FlxText = new FlxText(0, 0, 0, translatedCreditsType);
             titleText.setFormat("VCR OSD Mono", 64, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -690,7 +689,7 @@ class SocialButton
 }
 enum CreditsType
 {
-   Dev; Translator; Contributor; BetaTester; SpecialThanks;
+   WazaDev; Dev; Translator;
 }
 enum State
 {

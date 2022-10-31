@@ -67,7 +67,6 @@ class CreditsMenuState extends MusicBeatState
          new Social('youtube', 'https://www.youtube.com/channel/UCTi70VFLKz624JcU_QmJoHQ'),
       ]),
 
-
       // Developers //
       new Person("Erizur", CreditsType.Dev,
       [
@@ -194,7 +193,7 @@ class CreditsMenuState extends MusicBeatState
       for (i in 0...peopleInCredits.length)
       {
          var currentPerson = peopleInCredits[i];
-         if (currentPerson == developers[0] || currentPerson == translators[0] || currentPerson == contributors[0] || currentPerson == betaTesters[0] || currentPerson == specialThanks[0])
+         if (currentPerson == wazadevelopers[0] || currentPerson == developers[0] || currentPerson == translators[0])
          {
             switch (currentPerson.creditsType)
             {

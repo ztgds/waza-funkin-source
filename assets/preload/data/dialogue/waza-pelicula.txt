@@ -1,0 +1,6 @@
+:waza,neutral:Me dijieron por ahi de que tu eras el mayor insano.
+:waza,neutral:Es cierto?
+:bf,ready:aweonao
+:waza,mad:cagaste
+:waza,mad:te voy a matar
+:bf,upset:ay

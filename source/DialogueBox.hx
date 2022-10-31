@@ -14,6 +14,7 @@ import flixel.input.FlxKeyManager;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import flixel.tweens.FlxEase;
 
 using StringTools;
 
@@ -68,7 +69,14 @@ class DialogueBox extends FlxSpriteGroup
 			FlxG.sound.music.fadeIn(1, 0, 0.8);
 		}
 		
-
+		switch (PlayState.SONG.song.toLowerCase()) 
+		{
+			case 'waza-pelicula':
+				FlxG.sound.playMusic(Paths.music('dialogue_scarymovie'), 0);
+			default:
+				FlxG.sound.playMusic(Paths.music('dialogue'), 0);
+		}
+	
 		bgFade = new FlxSprite(-200, -200).makeGraphic(Std.int(FlxG.width * 1.3), Std.int(FlxG.height * 1.3), 0xFF8A9AF5);
 		bgFade.scrollFactor.set();
 		bgFade.alpha = 0;
@@ -103,13 +111,6 @@ class DialogueBox extends FlxSpriteGroup
 
 		portraitRightCharacter = ['bf', 'normal'];
 
-		/*
-		switch (PlayState.SONG.song.toLowerCase())
-		{
-
-		}
-		*/
-
 		var leftPortrait:Portrait = getPortrait(portraitLeftCharacter[0], portraitLeftCharacter[1]);
 		var rightPortrait:Portrait = getPortrait(portraitRightCharacter[0], portraitRightCharacter[1]);
 
@@ -118,7 +119,6 @@ class DialogueBox extends FlxSpriteGroup
 
 		portraitLeft.visible = false;
 		portraitRight.visible = false;
-		
 
 		switch (PlayState.SONG.song.toLowerCase())
 		{
@@ -152,13 +152,13 @@ class DialogueBox extends FlxSpriteGroup
 				add(swagDialogue);
 			default:
 				dropText = new FlxText(242, 502, Std.int(FlxG.width * 0.6), "", 32);
-				dropText.font = 'VCR OSD Mono';
+				dropText.font = 'Stanberry';
 				dropText.color = 0xFF00137F;
 				dropText.antialiasing = true;
 				add(dropText);
 		
 				swagDialogue = new FlxTypeText(240, 500, Std.int(FlxG.width * 0.6), "", 32);
-				swagDialogue.font = 'VCR OSD Mono';
+				swagDialogue.font = 'Stanberry';
 				swagDialogue.color = 0xFF000000;
 				swagDialogue.antialiasing = true;
 				add(swagDialogue);
@@ -178,12 +178,17 @@ class DialogueBox extends FlxSpriteGroup
 		}
 		#end
 		dropText.text = swagDialogue.text;
+		// dialogue sounds (kms)
 		switch (curCharacter)
 		{
 			case 'bf':
 				swagDialogue.sounds = [FlxG.sound.load(Paths.sound('dialogue/bfDialogue'), 0.6)];		
 			case 'gf':
-				swagDialogue.sounds = [FlxG.sound.load(Paths.sound('dialogue/gfDialogue'), 0.6)];	
+				swagDialogue.sounds = [FlxG.sound.load(Paths.sound('dialogue/gfDialogue'), 0.6)];
+			case 'insano':
+				swagDialogue.sounds = [FlxG.sound.load(Paths.soundRandom('dialogue/insanoDialogue', 1, 3), 0.6)];	
+			case 'waza':
+				swagDialogue.sounds = [FlxG.sound.load(Paths.sound('dialogue/wazaDialogue'), 0.6)];
 			default:
 				swagDialogue.sounds = [FlxG.sound.load(Paths.sound('dialogue/pixelText'), 0.6)];	
 		}
@@ -283,6 +288,8 @@ class DialogueBox extends FlxSpriteGroup
 			}
 			switch (curCharacter)
 			{
+				case 'insano' | 'waza':
+			    	portraitLeft.setPosition(200, 220);
 				case 'bf' | 'gf': //create boyfriend & genderbent boyfriend
 					portraitRight.setPosition(570, 220);
 			}
@@ -303,7 +310,7 @@ class DialogueBox extends FlxSpriteGroup
 			portraitSprite.alpha = 0;
 			
 			FlxTween.cancelTweensOf(portraitSprite);
-			FlxTween.tween(portraitSprite, {x: portraitSprite.x - pushbackAmount, alpha: 1}, 0.2);
+			FlxTween.tween(portraitSprite, {x: portraitSprite.x - pushbackAmount, alpha: 1}, 0.2, {ease: FlxEase.backOut});
 		}
 		else
 		{
@@ -397,6 +404,26 @@ class DialogueBox extends FlxSpriteGroup
 						portrait.portraitPath = 'dialogue/gf/gf_happy';
 				}
 				portrait.left = false;
+			case 'insano':
+				switch (expression)
+				{
+					case 'waza':
+						portrait.portraitPath = 'dialogue/insano/insano_waza';
+					case 'uwu':
+						portrait.portraitPath = 'dialogue/insano/insano_uwu';
+					default:
+						portrait.portraitPath = 'dialogue/insano/insano_waza';
+				}
+			case 'waza':
+				switch (expression)
+				{
+					case 'neutral':
+						portrait.portraitPath = 'dialogue/waza/waza_neutral';
+					case 'mad':
+						portrait.portraitPath = 'dialogue/waza/waza_mad';
+					default:
+						portrait.portraitPath = 'dialogue/waza/waza_neutral';
+				}
 		}
 		return portrait;
 	}

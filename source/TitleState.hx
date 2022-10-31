@@ -291,7 +291,7 @@ class TitleState extends MusicBeatState
 			remove(credGroup);
 			skippedIntro = true;
 	
-			FlxG.camera.fade(FlxColor.WHITE, 2.5, true);
+			camStupid.flash(FlxColor.WHITE, 0.5);
 		}
 	}
 

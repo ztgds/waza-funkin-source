@@ -377,6 +377,9 @@ class PlayState extends MusicBeatState
 	var camBopVAL:Float = 0.015;
 	var camHUDBopVAL:Float = 0.05;
 
+	var beatToSnap:Float = 1;
+	var snapToBeat:Float = 0;
+
 	var evilTrail:FlxTrail;
 	var sexTrail:FlxTrail;
 
@@ -861,6 +864,13 @@ class PlayState extends MusicBeatState
 		});
 		#end
 
+		if (isStoryMode) {
+			switch (curStage.toLowerCase()) {
+				case 'insano' | 'waza':
+					FlxG.camera.zoom = 1;
+			}
+		}
+
 		super.create();
 
 		Transition.nextCamera = camTransition;
@@ -1020,6 +1030,13 @@ class PlayState extends MusicBeatState
 				{
 					introAlts = introAssets.get(value);
 					altSuffix = '-pixel';
+				}
+			}
+
+			if (isStoryMode) {
+				switch (curStage.toLowerCase()) {
+					case 'insano' | 'waza':
+						FlxTween.tween(FlxG.camera, {zoom: bgZoom}, 1, {ease: FlxEase.backOut});
 				}
 			}
 
@@ -1606,8 +1623,64 @@ class PlayState extends MusicBeatState
 
 		switch (SONG.song.toLowerCase())
 		{
+			case 'insanos':
+				switch (curStep)
+				{
+				 	case 1:
+						cinematicBars(5.25, 400);
+					    showOnlyStrums();
+						allowCamZoom = false;
+					    FlxTween.tween(FlxG.camera, {zoom: 1.25}, 4.5, {ease: FlxEase.backOut});
+				    case 64:
+						FlxG.camera.flash();
+					    restoreHUDElements();
+					    allowCamZoom = true;
+				    case 176:
+					    defaultCamZoom = bgZoom + 0.15;
+					    FlxTween.tween(camHUD, {alpha: 0.85}, 1.25, {ease: FlxEase.cubeInOut});
+					    FlxTween.tween(blackScreendeez, {alpha: 0.95}, 1.25);
+				    case 192:
+					    defaultCamZoom = bgZoom;
+					    FlxTween.tween(camHUD, {alpha: 1}, 0.5, {ease: FlxEase.cubeInOut});
+						blackScreendeez.alpha = 0;
+					    FlxG.camera.flash();
+					    camHUD.zoom += 0.065;
+					    camZoomSnap = true;
+					    beatToSnap = 2;
+				    case 320:
+					    beatToSnap = 1;
+				    case 448:
+					    beatToSnap = 2;
+				    case 576:
+					    camZoomSnap = false;
+					    defaultCamZoom = bgZoom + 0.1;
+				    case 688:
+					    beatToSnap = 1;
+					    camZoomSnap = true;
+					    defaultCamZoom = bgZoom + 0.2;
+				    case 704:
+					    defaultCamZoom = bgZoom - 0.05;
+					    camHUDBopVAL = 0.065;
+					    camBopVAL = 0.025;
+				    case 1087:
+					    camHUD.zoom += 0.075;
+					    camZoomSnap = false;
+					    defaultCamZoom = bgZoom;
+						camHUDBopVAL = 0.05;
+					    camBopVAL = 0.015;
+				    case 1090:
+						camHUDBopVAL = 0.010;
+					    allowCamZoom = false;
+				    case 1091:
+					    FlxTween.tween(FlxG.camera, {zoom: 1.05}, 25);
+				    case 1327:
+					    FlxTween.tween(blackScreendeez, {alpha: 1}, 1.25);
+				    case 1343:
+					    hideHealthBars();
+				}
 			case 'waza-pelicula':
-				dad.y += (Math.sin(elapsedtime) * 0.6);
+				if (startedCountdown)
+			    	dad.y += (Math.sin(elapsedtime) * 0.6);
 
 				switch(curStep)
 				{
@@ -2127,10 +2200,10 @@ class PlayState extends MusicBeatState
 						camFollow.y = dad.getMidpoint().y - 430;
 						camFollow.x = dad.getMidpoint().x - 100;
 					case 'insano':
-						camFollow.x = dad.getMidpoint().x + 505;
-						camFollow.y = dad.getMidpoint().y - 135;
+						camFollow.x = dad.getMidpoint().x + 320;
+						camFollow.y = dad.getMidpoint().y - 240;
 					case 'waza':
-						camFollow.y = dad.getMidpoint().y - 150;
+						camFollow.y = dad.getMidpoint().y - 165;
 				}
 
 				if (SONG.song.toLowerCase() == 'tutorial')
@@ -3120,7 +3193,9 @@ class PlayState extends MusicBeatState
 				FlxTween.angle(iconP1, 10, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
 		}
 
-		if (camZoomSnap && camZooming)
+		// beatToSnap (def value is 1, snaps to every beat)
+		// snapToBeat (def value is 0, snaps on 0 of the prev beat)
+		if (camZoomSnap && camZooming && curBeat % beatToSnap == snapToBeat)
 		{
 			if(allowCamZoom) FlxG.camera.zoom += camBopVAL;
 			if(allowCamHUDZoom)	camHUD.zoom += camHUDBopVAL;
@@ -3151,8 +3226,6 @@ class PlayState extends MusicBeatState
 				if(allowCamZoom) FlxG.camera.zoom += 0.015;
 			}
 		}
-
-
 
 		if (holaDani) {
 			if (curBeat % chupaloo == 0) {

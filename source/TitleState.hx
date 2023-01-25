@@ -69,7 +69,7 @@ class TitleState extends MusicBeatState
 
 		super.create();
 
-		FlxG.save.bind('funkin', 'ninjamuffin99');
+		#if (flixel < "5.0.0") FlxG.save.bind('funkin', 'ninjamuffin99'); #end
 
 		SaveDataHandler.initSave();
 		LanguageManager.init();
@@ -78,7 +78,7 @@ class TitleState extends MusicBeatState
 		
 		CoolUtil.init();
 
-		Main.fps.visible = !FlxG.save.data.disableFps;
+		Main.fpsVar.visible = !FlxG.save.data.disableFps;
 
 		camBelow = new FlxCamera();
 		camStupid = new FlxCamera();

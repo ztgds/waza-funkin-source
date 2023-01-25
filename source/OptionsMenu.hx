@@ -153,7 +153,7 @@ class OptionsMenu extends MusicBeatState
 					FlxG.switchState(new ChangeLanguageState());
 				case 8:
 					FlxG.save.data.disableFps = !FlxG.save.data.disableFps;
-					Main.fps.visible = !FlxG.save.data.disableFps;
+					Main.fpsVar.visible = !FlxG.save.data.disableFps;
 					updateGroupControls(FlxG.save.data.disableFps ? LanguageManager.getTextString('option_enable_fps') : LanguageManager.getTextString('option_disable_fps'), 8, 'Vertical');
 				case 9:
 					CompatTool.save.data.compatMode = !CompatTool.save.data.compatMode;

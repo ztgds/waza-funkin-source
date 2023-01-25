@@ -1752,8 +1752,9 @@ class PlayState extends MusicBeatState
 		switch (SONG.song.toLowerCase())
 		{
 			default:
-				scoreTxt.text = LanguageManager.getTextString('play_score') + Std.string(songScore) + " | " + LanguageManager.getTextString('play_miss')
-					+ misses + " | " + LanguageManager.getTextString('play_accuracy') + truncateFloat(accuracy, 2) + "%";
+				scoreTxt.text = LanguageManager.getTextString('play_score') + ' ' + Std.string(songScore) + " | "
+				+ LanguageManager.getTextString('play_miss') + ' ' + misses + " | "
+				+ LanguageManager.getTextString('play_accuracy') + ' ' + truncateFloat(accuracy, 2) + "%";
 		}
 		if (noMiss)
 		{

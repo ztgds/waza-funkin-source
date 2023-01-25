@@ -21,7 +21,11 @@ class Main extends Sprite
 	var skipSplash:Bool = false; // Whether to skip the flixel splash screen that appears in release mode.
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 
-	public static var fps:FpsDisplay;
+	public static var fpsVar:FpsDisplay;
+	public static var fpsVarBorder1:FpsDisplay;
+	public static var fpsVarBorder2:FpsDisplay;
+	public static var fpsVarBorder3:FpsDisplay;
+	public static var fpsVarBorder4:FpsDisplay;
 
 	public static var applicationName:String = "Gayest Night Funkin'";
 
@@ -54,7 +58,7 @@ class Main extends Sprite
 
 	public static function toggleFuckedFPS(toggle:Bool)
 	{
-		fps.fuckFps = toggle;
+		fpsVar.fuckFps = toggle;
 	}
 
 	private function setupGame():Void
@@ -72,11 +76,18 @@ class Main extends Sprite
 		}
 
 		initialState = StartStateSelector;
-		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
+		addChild(new FlxGame(gameWidth, gameHeight, initialState, #if (flixel < "5.0.0") zoom, #end framerate, framerate, skipSplash, startFullscreen));
 
 		#if !mobile
-		fps = new FpsDisplay(10, 3, 0xFFFFFF);
-		addChild(fps);
+		fpsVarBorder1 = new FpsDisplay(12, 5, 0x000000);
+		fpsVarBorder2 = new FpsDisplay(8, 1, 0x000000);
+		fpsVarBorder3 = new FpsDisplay(8, 5, 0x000000);
+		fpsVarBorder4 = new FpsDisplay(12, 1, 0x000000);
+		fpsVar = new FpsDisplay(10, 3, 0xFFFFFF);
+		for (fpsVars in [fpsVarBorder1, fpsVarBorder2, fpsVarBorder3, fpsVarBorder4]) {
+	     	addChild(fpsVars);
+		}
+		addChild(fpsVar);
 		#end
 	}
 }
